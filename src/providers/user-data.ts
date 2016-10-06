@@ -3,13 +3,17 @@ import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
+import * as mqtt from 'mqtt';
 
 @Injectable()
 export class UserData {
   _favorites = [];
   HAS_LOGGED_IN = 'hasLoggedIn';
 
-  constructor(public events: Events, public storage: Storage) {}
+  constructor(public events: Events, public storage: Storage) {
+    let _client = mqtt.connect('ws://localhost:9001');
+    _client = null; // avoid TS warning
+  }
 
   hasFavorite(sessionName) {
     return (this._favorites.indexOf(sessionName) > -1);
